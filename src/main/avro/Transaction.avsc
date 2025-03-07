@@ -1,0 +1,53 @@
+{
+  "namespace": "com.example.model",
+  "type": "record",
+  "name": "Transaction",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "amount",
+      "type": "double"
+    },
+    {
+      "name": "currency",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "description",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "merchant",
+      "type": "string"
+    },
+    {
+      "name": "category",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "status",
+      "type": "string"
+    },
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "metadata",
+      "type": ["null", {"type": "map", "values": "string"}],
+      "default": null
+    }
+  ]
+}
