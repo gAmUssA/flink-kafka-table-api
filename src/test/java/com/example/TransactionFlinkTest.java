@@ -35,7 +35,7 @@ public class TransactionFlinkTest extends BaseTransactionTest {
     sendTransactionsToKafka(inputTransactions);
     LOG.info("Sent transactions to Kafka");
 
-    // Set up Table Environment with limited parallelism
+    // Set up Table Environment
     EnvironmentSettings settings = EnvironmentSettings.inStreamingMode();
     TableEnvironment tableEnv = TableEnvironment.create(settings);
 
@@ -89,8 +89,8 @@ public class TransactionFlinkTest extends BaseTransactionTest {
             .filter(t -> !TransactionStatus.CANCELLED.toString().equals(t.getStatus()))
             .count();
 
-    // In test environment, we might not get all results immediately
-    assertTrue(results.size() > 0, "Should have at least one result");
+    // We should have received the number of events minus CANCELLED transactions
+    assertEquals(expectedCount, results.size(), "Should have filtered out CANCELLED transactions");
 
     // Create a map of input transactions by ID for easier lookup
     Map<String, Transaction> inputTransactionsById = new HashMap<>();
