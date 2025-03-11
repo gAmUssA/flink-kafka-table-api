@@ -12,7 +12,7 @@
     <flink.version>1.20.1</flink.version>
     <flink.kafka.version>3.4.0-1.20</flink.kafka.version>
     <kafka.version>3.4.0</kafka.version>
-    <testcontainers.version>1.19.5</testcontainers.version>
+    <testcontainers.version>1.20.6</testcontainers.version>
     <confluent.version>7.9.0</confluent.version>
     <avro.version>1.11.1</avro.version>
     <junit.version>5.9.2</junit.version>
