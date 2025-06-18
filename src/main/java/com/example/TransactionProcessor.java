@@ -1,15 +1,25 @@
 package com.example;
 
-import static org.apache.flink.table.api.Expressions.*;
-
 import com.example.model.TransactionStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.apache.flink.table.api.DataTypes;
+import org.apache.flink.table.api.EnvironmentSettings;
+import org.apache.flink.table.api.Schema;
+import org.apache.flink.table.api.Table;
+import org.apache.flink.table.api.TableDescriptor;
+import org.apache.flink.table.api.TableEnvironment;
+import org.apache.flink.table.api.TableResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import org.apache.flink.table.api.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static org.apache.flink.table.api.Expressions.$;
+import static org.apache.flink.table.api.Expressions.currentTimestamp;
+import static org.apache.flink.table.api.Expressions.ifThenElse;
 
 /**
  * Flink Table API application that processes transaction data from Kafka. Filters out cancelled
@@ -81,7 +91,9 @@ public class TransactionProcessor {
     return objectMapper.writeValueAsString(jsonSchema);
   }
 
-  /** Creates the source table that reads from Kafka. */
+  /**
+   * Creates the source table that reads from Kafka.
+   */
   protected void createSourceTable(TableEnvironment tableEnv) {
     try {
       String transactionSchema = readAvroSchema(TRANSACTION_SCHEMA_PATH);
@@ -122,7 +134,9 @@ public class TransactionProcessor {
     }
   }
 
-  /** Creates the sink table that writes to Kafka. */
+  /**
+   * Creates the sink table that writes to Kafka.
+   */
   protected void createSinkTable(TableEnvironment tableEnv) {
     try {
       String approvedTransactionSchema = readAvroSchema(APPROVED_TRANSACTION_SCHEMA_PATH);
@@ -181,11 +195,15 @@ public class TransactionProcessor {
                 $("merchant"),
                 $("userId"),
                 // Cast/transform data - simple currency conversion example
-                callSql(
-                        "IF(`currency` = 'EUR', `amount` * 1.1, "
-                            + "IF(`currency` = 'GBP', `amount` * 1.3, `amount`))")
-                    .as("amountInUsd"),
-                // Add processing timestamp
+                ifThenElse(
+                    $("currency").isEqual("EUR"),
+                    $("amount").times(1.1),
+                    ifThenElse(
+                        $("currency").isEqual("GBP"),
+                        $("amount").times(1.3),
+                        $("amount")
+                    )
+                ).as("amountInUsd"),                // Add processing timestamp
                 currentTimestamp().as("processingTimestamp"));
 
     // Insert into sink table and return the TableResult
@@ -196,7 +214,9 @@ public class TransactionProcessor {
     return result;
   }
 
-  /** Application entry point. */
+  /**
+   * Application entry point.
+   */
   public static void main(String[] args) throws Exception {
     String bootstrapServers = "localhost:9092";
     String schemaRegistryUrl = "http://localhost:8081";
