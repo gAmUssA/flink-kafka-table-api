@@ -1,0 +1,169 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "timezone": "UTC",
+  "schedule": [
+    "before 6am on monday"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "assigneesFromCodeOwners": true,
+  "reviewersFromCodeOwners": true,
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "semanticCommits": "enabled",
+  "commitMessagePrefix": "chore:",
+  "commitMessageAction": "update",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "to {{newVersion}}",
+  "branchPrefix": "renovate/",
+  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "description": "Group Flink dependencies together",
+      "groupName": "Apache Flink",
+      "matchPackagePatterns": [
+        "^org\\.apache\\.flink"
+      ],
+      "schedule": [
+        "before 6am on monday"
+      ]
+    },
+    {
+      "description": "Group Jackson dependencies together",
+      "groupName": "Jackson",
+      "matchPackagePatterns": [
+        "^com\\.fasterxml\\.jackson"
+      ]
+    },
+    {
+      "description": "Group Confluent dependencies together",
+      "groupName": "Confluent Platform",
+      "matchPackagePatterns": [
+        "^io\\.confluent"
+      ]
+    },
+    {
+      "description": "Group TestContainers dependencies together",
+      "groupName": "TestContainers",
+      "matchPackagePatterns": [
+        "^org\\.testcontainers"
+      ]
+    },
+    {
+      "description": "Group Log4j dependencies together",
+      "groupName": "Log4j",
+      "matchPackagePatterns": [
+        "^org\\.apache\\.logging\\.log4j"
+      ]
+    },
+    {
+      "description": "Group JUnit dependencies together",
+      "groupName": "JUnit",
+      "matchPackagePatterns": [
+        "^org\\.junit\\.jupiter"
+      ]
+    },
+    {
+      "description": "Group Maven plugins together",
+      "groupName": "Maven plugins",
+      "matchManagers": [
+        "maven"
+      ],
+      "matchDepTypes": [
+        "plugin"
+      ]
+    },
+    {
+      "description": "Group Docker images used in tests",
+      "groupName": "Test Docker images",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "confluentinc/cp-kafka",
+        "confluentinc/cp-schema-registry"
+      ]
+    },
+    {
+      "description": "Pin Docker image versions for TestContainers",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "confluentinc/cp-kafka",
+        "confluentinc/cp-schema-registry"
+      ],
+      "versioning": "docker"
+    },
+    {
+      "description": "Auto-merge patch updates for non-critical dependencies",
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "matchPackagePatterns": [
+        "^com\\.fasterxml\\.jackson",
+        "^org\\.apache\\.commons",
+        "^org\\.slf4j"
+      ],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "Require manual approval for major Flink updates",
+      "matchPackagePatterns": [
+        "^org\\.apache\\.flink"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Require manual approval for major TestContainers updates",
+      "matchPackagePatterns": [
+        "^org\\.testcontainers"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true
+    }
+  ],
+  "maven": {
+    "ignoreDeps": [
+      "org.apache.maven.plugins:maven-compiler-plugin",
+      "org.apache.maven.plugins:maven-shade-plugin"
+    ]
+  },
+  "docker": {
+    "enabled": true,
+    "pinDigests": false
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "schedule": [
+      "at any time"
+    ]
+  },
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Dependency Dashboard",
+  "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.",
+  "dependencyDashboardFooter": "- [ ] <!-- rebase-check -->Check this box to trigger a request for Renovate to run again on this repository",
+  "lockFileMaintenance": {
+    "enabled": false
+  },
+  "osvVulnerabilityAlerts": true,
+  "transitiveRemediation": true,
+  "separateMinorPatch": true,
+  "separateMajorMinor": true,
+  "separateMultipleMajor": true,
+  "ignorePaths": [
+    "**/target/**",
+    "**/.idea/**",
+    "**/.git/**"
+  ]
+}

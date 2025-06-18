@@ -138,7 +138,7 @@ public abstract class BaseTransactionTest {
         .setCategory("Test")
         .setStatus(status)
         .setUserId(UUID.randomUUID().toString())
-        .setMetadata(new HashMap<String, String>())
+        .setMetadata(Collections.emptyMap())
         .build();
   }
 
