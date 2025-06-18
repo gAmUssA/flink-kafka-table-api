@@ -9,6 +9,7 @@
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.release>17</maven.compiler.release>
     <flink.version>1.20.1</flink.version>
     <flink.kafka.version>3.4.0-1.20</flink.kafka.version>
     <!-- The used Kafka client needs to be in sync with the one used by the Flink Kafka connector -->
@@ -213,8 +214,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.11.0</version>
         <configuration>
-          <source>${maven.compiler.source}</source>
-          <target>${maven.compiler.target}</target>
+          <release>${maven.compiler.release}</release>
         </configuration>
       </plugin>
 
