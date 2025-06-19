@@ -26,10 +26,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.Network;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.kafka.ConfluentKafkaContainer;
 import org.testcontainers.utility.DockerImageName;
 
 /** Base test class with common setup for Kafka and Schema Registry */
@@ -46,14 +46,15 @@ public abstract class BaseTransactionTest {
   protected static final String INPUT_TOPIC = "transactions";
   protected static final String OUTPUT_TOPIC = "approved_transactions";
   protected static final DockerImageName CONFLUENT_PLATFORM_IMAGE =
-      DockerImageName.parse("confluentinc/cp-schema-registry:7.9.0");
+      DockerImageName.parse("confluentinc/cp-schema-registry:7.9.2");
 
   protected static final Network NETWORK = Network.newNetwork();
 
   // Start Kafka container
   @Container
-  protected static final KafkaContainer KAFKA =
-      new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:7.9.0"))
+  protected static final ConfluentKafkaContainer KAFKA =
+      new ConfluentKafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:7.9.2"))
+          .withListener("kafka:19092")
           .withNetwork(NETWORK)
           .withNetworkAliases("kafka");
 
@@ -64,7 +65,7 @@ public abstract class BaseTransactionTest {
           .withNetwork(NETWORK)
           .withExposedPorts(8081)
           .withEnv("SCHEMA_REGISTRY_HOST_NAME", "schema-registry")
-          .withEnv("SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS", "kafka:9092")
+          .withEnv("SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS", "kafka:19092")
           .withEnv("SCHEMA_REGISTRY_LISTENERS", "http://0.0.0.0:8081")
           // Disable Schema Registry compatibility check due to
           // https://issues.apache.org/jira/browse/FLINK-33045 and

@@ -10,15 +10,15 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <maven.compiler.release>17</maven.compiler.release>
-    <flink.version>1.20.1</flink.version>
-    <flink.kafka.version>3.4.0-1.20</flink.kafka.version>
+    <flink.version>2.0.0</flink.version>
+    <flink.kafka.version>4.0.0-2.0</flink.kafka.version>
     <!-- The used Kafka client needs to be in sync with the one used by the Flink Kafka connector -->
-    <kafka.version>3.4.0</kafka.version>
+    <kafka.version>4.0.0</kafka.version>
     <testcontainers.version>1.21.1</testcontainers.version>
     <confluent.version>7.9.2</confluent.version>
     <avro.version>1.12.0</avro.version>
     <!-- JUnit version needs to be in sync with the one provided by Flink Test Utils -->
-    <junit.version>5.10.5</junit.version>
+    <junit.version>5.11.4</junit.version>
     <log4j.version>2.25.0</log4j.version>
     <slf4j.version>2.0.17</slf4j.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

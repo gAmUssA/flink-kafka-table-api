@@ -2,7 +2,7 @@ package com.example.util;
 
 import java.io.IOException;
 import java.util.Properties;
-import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.util.ParameterTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
