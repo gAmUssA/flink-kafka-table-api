@@ -15,7 +15,7 @@
     <!-- The used Kafka client needs to be in sync with the one used by the Flink Kafka connector -->
     <kafka.version>4.0.0</kafka.version>
     <testcontainers.version>1.21.2</testcontainers.version>
-    <confluent.version>7.9.2</confluent.version>
+    <confluent.version>8.0.0</confluent.version>
     <avro.version>1.12.0</avro.version>
     <!-- JUnit version needs to be in sync with the one provided by Flink Test Utils -->
     <junit.version>5.11.4</junit.version>
